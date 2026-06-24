@@ -1,0 +1,53 @@
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  flex-shrink: 0;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+.nav { display: flex; flex-direction: column; gap: 4px; }
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: all 0.15s;
+}
+.link:hover { background: var(--surface2); color: var(--text); }
+.active { background: rgba(99,102,241,0.15); color: var(--primary); font-weight: 600; }
+.icon { font-size: 1rem; width: 20px; text-align: center; }
+.footer { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
+.email { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.logout {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  width: 100%;
+  transition: all 0.15s;
+}
+.logout:hover { border-color: var(--danger); color: var(--danger); }

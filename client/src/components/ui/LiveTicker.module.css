@@ -1,0 +1,25 @@
+.ticker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.live { background: var(--success); box-shadow: 0 0 6px var(--success); animation: pulse 2s infinite; }
+.off  { background: var(--text-muted); }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.label { color: var(--text-muted); }
+.value { font-weight: 700; color: var(--text); }
+.unit  { font-weight: 400; color: var(--text-muted); }

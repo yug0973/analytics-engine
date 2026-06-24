@@ -1,0 +1,22 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.title { font-size: 1.1rem; font-weight: 700; }
+.right { display: flex; align-items: center; gap: 1rem; }
+.periods { display: flex; gap: 4px; }
+.period {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius);
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  transition: all 0.15s;
+}
+.period:hover { border-color: var(--primary); color: var(--primary); }
+.active { border-color: var(--primary); color: var(--primary); background: rgba(99,102,241,0.1); }

@@ -1,0 +1,100 @@
+# docker-compose.prod.yml
+# ─────────────────────────────────────────────────────────
+#  Production overrides on top of docker-compose.yml.
+#
+#  Usage:
+#    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+#  What this file changes vs dev:
+#    - Node server runs from built image (not bind-mounted src)
+#    - No Kafka UI (not needed in prod, saves memory)
+#    - Restart policies set to unless-stopped
+#    - Resource limits added to prevent runaway containers
+#    - Healthchecks tightened
+#    - Logs go to json-file with rotation
+# ─────────────────────────────────────────────────────────
+
+version: '3.9'
+
+services:
+
+  # ── API server ─────────────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: analytics-engine-server:latest
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - '3001:3001'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3001/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # ── PostgreSQL ─────────────────────────────────────────
+  postgres:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  # ── Redis ──────────────────────────────────────────────
+  redis:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  # ── Kafka ──────────────────────────────────────────────
+  kafka:
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  # ── Kafka UI disabled in prod ──────────────────────────
+  kafka-ui:
+    profiles:
+      - dev   # only starts when --profile dev is passed
